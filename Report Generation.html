@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Business Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px; /* Maximum width of the container */
+            margin: 0 auto;
+            padding: 0 20px; /* Padding on the sides for spacing */
+        }
+        .table-container, .chart-container {
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow-x: auto;
+            display: block;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+        .chart {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .chart > div {
+            width: 48%;
+            min-width: 300px;
+            box-sizing: border-box;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .chart {
+                flex-direction: column;
+                align-items: center;
+            }
+            .chart > div {
+                width: 80%;
+            }
+            table {
+                font-size: 12px;
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            table {
+                font-size: 10px;
+            }
+            h1 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Monthly Business Report</h1>
+
+    <!-- Report Table -->
+    <div class="table-container">
+        <h2>1. Sales Data</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Sales Volume</th>
+                    <th>Revenue</th>
+                    <th>Profit</th>
+                    <th>Profit Margin (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Product A</td>
+                    <td>1200</td>
+                    <td>$24,000</td>
+                    <td>$4,800</td>
+                    <td>20%</td>
+                </tr>
+                <tr>
+                    <td>Product B</td>
+                    <td>800</td>
+                    <td>$16,000</td>
+                    <td>$3,200</td>
+                    <td>20%</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Charts -->
+    <div class="chart-container">
+        <h2>2. Sales Trends & Market Share</h2>
+        <div class="chart">
+            <!-- Line Chart Placeholder -->
+            <div>
+                <h3>Monthly Sales Growth</h3>
+                <canvas id="lineChart" width="300" height="200"></canvas>
+            </div>
+            <!-- Pie Chart Placeholder -->
+            <div>
+                <h3>Market Distribution</h3>
+                <canvas id="pieChart" width="300" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- JavaScript for Charts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Sample Line Chart
+    const lineCtx = document.getElementById('lineChart').getContext('2d');
+    new Chart(lineCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Sales Growth',
+                data: [100, 200, 300, 500, 700, 1000],
+                borderColor: 'red',
+                fill: false
+            }]
+        }
+    });
+
+    // Sample Pie Chart
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Product A', 'Product B', 'Product C'],
+            datasets: [{
+                data: [30, 50, 20],
+                backgroundColor: ['red', 'blue', 'green']
+            }]
+        }
+    });
+</script>
+
+</body>
+</html>

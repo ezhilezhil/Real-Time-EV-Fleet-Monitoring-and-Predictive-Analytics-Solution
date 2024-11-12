@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Behavior and Maintenance Alerts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th, td {
+            padding: 12px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .alert {
+            background-color: #ffdddd;
+            padding: 15px;
+            border: 1px solid #f5c6cb;
+            margin: 10px 0;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Driver Behavior and Maintenance Alerts</h1>
+        <p>Below are the analysis of driver behavior and maintenance alerts based on predefined rules.</p>
+    </header>
+
+    <!-- Driver Behavior Analysis Table -->
+    <h2>Driver Behavior Analysis</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Driver ID</th>
+                <th>Speed (km/h)</th>
+                <th>Brake Force</th>
+                <th>Acceleration</th>
+                <th>Driving Time (minutes)</th>
+                <th>Harsh Braking</th>
+                <th>Aggressive Acceleration</th>
+                <th>Excessive Speed</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>55</td>
+                <td>2</td>
+                <td>3</td>
+                <td>30</td>
+                <td>No</td>
+                <td>No</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>85</td>
+                <td>4</td>
+                <td>2</td>
+                <td>45</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>45</td>
+                <td>5</td>
+                <td>5</td>
+                <td>50</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>60</td>
+                <td>3</td>
+                <td>4</td>
+                <td>60</td>
+                <td>No</td>
+                <td>No</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>100</td>
+                <td>2</td>
+                <td>3</td>
+                <td>35</td>
+                <td>No</td>
+                <td>No</td>
+                <td>Yes</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Maintenance Alerts Section -->
+    <h2>Maintenance Alerts</h2>
+    <div class="alert">
+        <strong>Alert:</strong> Driver 2 has driven for over 50 minutes. Maintenance required.
+    </div>
+    <div class="alert">
+        <strong>Alert:</strong> Driver 2 exhibited aggressive driving behavior. Maintenance required.
+    </div>
+    <div class="alert">
+        <strong>Alert:</strong> Driver 3 exhibited aggressive driving behavior. Maintenance required.
+    </div>
+    <div class="alert">
+        <strong>Alert:</strong> Driver 5 exhibited aggressive driving behavior. Maintenance required.
+    </div>
+
+    <!-- Buttons to download reports and screenshots -->
+    <div>
+        <button class="button" onclick="window.location.href='driver_behavior_analysis.png'">Download Driver Behavior Screenshot</button>
+        <button class="button" onclick="window.location.href='maintenance_alerts.csv'">Download Maintenance Alerts Report</button>
+    </div>
+
+</body>
+</html>
