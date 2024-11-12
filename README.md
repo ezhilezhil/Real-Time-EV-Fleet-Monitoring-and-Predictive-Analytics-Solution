@@ -65,6 +65,9 @@ To set up the project locally, follow these steps:
 
 6. Access the application:
    - Open your browser and navigate to `http://localhost:3000` to access the real-time monitoring dashboard.
+  
+## LiveSite
+   https://ezhilezhil.github.io/Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution/
 
 ## Usage
 
