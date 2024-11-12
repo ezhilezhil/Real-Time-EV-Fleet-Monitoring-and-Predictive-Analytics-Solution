@@ -1,3 +1,7 @@
+Here’s the updated `README.md` with a section for the live site:
+
+---
+
 # Real-Time EV Fleet Monitoring and Predictive Analytics Solution
 
 ## Overview
@@ -19,6 +23,7 @@ The **Real-Time EV Fleet Monitoring and Predictive Analytics Solution** is a com
 - [Technologies](#technologies)
 - [Contributing](#contributing)
 - [License](#license)
+- [Live Site](#live-site)
 
 ## Features
 - **Real-time Tracking**: Get live updates on vehicle speed, location, and battery status.
@@ -65,9 +70,6 @@ To set up the project locally, follow these steps:
 
 6. Access the application:
    - Open your browser and navigate to `http://localhost:3000` to access the real-time monitoring dashboard.
-  
-## LiveSite
-   https://ezhilezhil.github.io/Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution/
 
 ## Usage
 
@@ -121,3 +123,11 @@ Please ensure that your code adheres to the project's coding standards and passe
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Live Site
+
+You can view the live version of the **Real-Time EV Fleet Monitoring and Predictive Analytics Solution** on the following URL: https://ezhilezhil.github.io/Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution/
+
+---
+
+Make sure to replace the placeholder URL under **Live Site** with the actual URL of your live deployment. This way, users can directly access the live site.
