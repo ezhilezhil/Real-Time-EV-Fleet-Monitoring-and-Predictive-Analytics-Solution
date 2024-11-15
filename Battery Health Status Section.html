@@ -13,7 +13,7 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #ffffff;
-            color: #ffffff;
+            color: #000000; /* Set text color to black for visibility */
             margin: 0;
             display: flex;
             flex-direction: column;
@@ -59,7 +59,9 @@
         .back-button-container {
             display: flex;
             justify-content: center;
-            margin-top: 20px; /* Space above the button */
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
         }
 
         .back-button {
@@ -99,6 +101,7 @@
         .status-table th, .status-table td {
             padding: 12px 15px;
             text-align: left;
+            color: #ffffff; /* Set text color for table content */
         }
 
         .status-table th {
@@ -145,11 +148,6 @@
 </head>
 <body>
 
-    <!-- Back Button Container -->
-    <div class="back-button-container">
-        <button class="back-button" onclick="window.history.back()">Back</button>
-    </div>
-
     <!-- Table Container -->
     <div class="table-container">
         <table class="status-table">
@@ -188,6 +186,11 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <!-- Back Button Container -->
+    <div class="back-button-container">
+        <button class="back-button" onclick="window.history.back()">Back</button>
     </div>
 
 </body>
