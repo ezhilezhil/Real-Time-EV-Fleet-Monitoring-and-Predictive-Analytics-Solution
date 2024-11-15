@@ -1,7 +1,3 @@
-Here’s the updated `README.md` with a section for the live site:
-
----
-
 # Real-Time EV Fleet Monitoring and Predictive Analytics Solution
 
 ## Overview
@@ -36,40 +32,18 @@ The **Real-Time EV Fleet Monitoring and Predictive Analytics Solution** is a com
 
 To set up the project locally, follow these steps:
 
-### Prerequisites:
-- Node.js (for backend)
-- MySQL or MongoDB (for database storage)
-
-### Steps to Install:
-
 1. Clone the repository:
    ```bash
    git clone https://github.com/<username>/Real-Time-EV-Fleet-Monitoring.git
    ```
 
-2. Navigate to the project directory:
+2. Navigate to the project directory and open the main HTML file:
    ```bash
    cd Real-Time-EV-Fleet-Monitoring
+   open index.html
    ```
 
-3. Install backend dependencies (Node.js):
-   ```bash
-   cd backend
-   npm install
-   ```
-
-4. Set up the database:
-   - Create the necessary database and tables for storing vehicle and fleet data.
-   - Configure your database connection in the `config.json` file.
-
-5. Start the application:
-   - Start the backend server:
-     ```bash
-     npm start
-     ```
-
-6. Access the application:
-   - Open your browser and navigate to `http://localhost:3000` to access the real-time monitoring dashboard.
+3. The application will open in your default web browser.
 
 ## Usage
 
@@ -85,7 +59,7 @@ Once the system is set up and running, you can:
 
 1. **EV Registration and Monitoring**:
    - Input vehicle details.
-   - Track location, speed, battery health in real-time.
+   - Track location, speed, and battery health in real-time.
    
 2. **Route Optimization**:
    - Suggest optimal routes based on battery levels and charging stations.
@@ -99,13 +73,10 @@ Once the system is set up and running, you can:
 
 ## Technologies
 
-- **Backend**: Node.js, Express
-- **Frontend**: HTML, CSS, JavaScript (React.js, Vue.js)
-- **Database**: MySQL, MongoDB
-- **Real-Time Data**: WebSockets, REST APIs
+- **Frontend**: HTML, CSS, JavaScript
+- **Real-Time Data**: REST APIs, WebSockets
 - **Maps and Routing**: Google Maps API, OpenStreetMap
-- **Authentication**: JWT, OAuth
-- **Deployment**: Docker, AWS, Heroku
+- **Deployment**: GitHub Pages
 
 ## Contributing
 
@@ -126,8 +97,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Live Site
 
-You can view the live version of the **Real-Time EV Fleet Monitoring and Predictive Analytics Solution** on the following URL: https://ezhilezhil.github.io/Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution/
+You can view the live version of the **Real-Time EV Fleet Monitoring and Predictive Analytics Solution** at:  
+[Live Site](https://ezhilezhil.github.io/Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution/)
 
----
-
-Make sure to replace the placeholder URL under **Live Site** with the actual URL of your live deployment. This way, users can directly access the live site.
