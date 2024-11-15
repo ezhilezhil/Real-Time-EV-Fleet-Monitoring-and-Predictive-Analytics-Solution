@@ -14,12 +14,30 @@
         header {
             background-color: #3498db;
             color: white;
-            padding: 30px 0;
+            padding: 20px 0;
             text-align: center;
+            position: relative;
         }
         header h1 {
             font-size: 2.5em;
-            margin: 0;
+            margin: 10px 0;
+        }
+        header p {
+            margin: 5px 0;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #34495e;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .back-button:hover {
+            background-color: #2c3e50;
         }
         section {
             margin: 20px;
@@ -94,11 +112,13 @@
         footer p {
             margin: 0;
         }
+        
     </style>
 </head>
 <body>
 
     <header>
+        <button class="back-button" onclick="history.back()">Back</button>
         <h1>Driver Behavior & Maintenance Alerts</h1>
         <p>Monitor and improve your fleet's performance with detailed behavior analysis and timely maintenance alerts.</p>
     </header>
@@ -163,30 +183,11 @@
         </div>
     </section>
 
-    <section class="alerts">
-        <h2>Maintenance Alerts</h2>
-        <div class="alert-container">
-            <div class="alert-card">
-                <h3>Driver 2 Maintenance Alert</h3>
-                <p>Driver 2 has exceeded the speed limit of 80 km/h for prolonged periods.</p>
-                <button class="button">Trigger Maintenance Check</button>
-            </div>
-            <div class="alert-card">
-                <h3>Driver 3 Maintenance Alert</h3>
-                <p>Driver 3 engaged in harsh braking and aggressive acceleration.</p>
-                <button class="button">Trigger Maintenance Check</button>
-            </div>
-            <div class="alert-card">
-                <h3>Driver 5 Maintenance Alert</h3>
-                <p>Driver 5 exhibited aggressive acceleration behavior.</p>
-                <button class="button">Trigger Maintenance Check</button>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2024 Fleet Performance Solutions | All rights reserved</p>
-    </footer>
+   
+    <!-- Back Button Container -->
+    <div class="back-button-container">
+        <button class="back-button" onclick="window.history.back()">Back</button>
+    </div>
 
 </body>
 </html>
