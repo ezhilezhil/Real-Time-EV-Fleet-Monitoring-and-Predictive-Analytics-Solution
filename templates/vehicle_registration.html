@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            padding: 0;
+            margin: 0;
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1em;
+        }
+        button {
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #1976d2;
+        }
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        #dashboardButton {
+            display: none; /* Initially hidden */
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #dashboardButton:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Vehicle Registration</h2>
+        <form id="vehicleForm">
+            <input type="text" id="vehicleName" placeholder="Vehicle Name" required>
+            <input type="text" id="vehicleModel" placeholder="Vehicle Model" required>
+            <input type="text" id="registrationNumber" placeholder="Registration Number" required>
+            <input type="number" id="batteryCapacity" placeholder="Battery Capacity (kWh)" required>
+            <button type="submit">Register Vehicle</button>
+        </form>
+
+        <table id="vehicleTable">
+            <thead>
+                <tr>
+                    <th>Vehicle Name</th>
+                    <th>Model</th>
+                    <th>Registration Number</th>
+                    <th>Battery Capacity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Vehicle registration data will be displayed here -->
+            </tbody>
+        </table>
+
+        <button id="dashboardButton" onclick="goToDashboard()">Go to Dashboard</button>
+    </div>
+
+    <script>
+        // Simulate a local array to store registered vehicles
+        const vehicleData = [];
+
+        // Function to handle form submission and add vehicle to table
+        document.getElementById('vehicleForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Get form values
+            const vehicleName = document.getElementById('vehicleName').value;
+            const vehicleModel = document.getElementById('vehicleModel').value;
+            const registrationNumber = document.getElementById('registrationNumber').value;
+            const batteryCapacity = document.getElementById('batteryCapacity').value;
+
+            // Add new vehicle data to array
+            const newVehicle = {
+                name: vehicleName,
+                model: vehicleModel,
+                registration: registrationNumber,
+                battery: batteryCapacity
+            };
+            vehicleData.push(newVehicle);
+
+            // Reset form fields
+            document.getElementById('vehicleForm').reset();
+
+            // Display the updated vehicle data in the table
+            updateVehicleTable();
+
+            // Show the "Go to Dashboard" button
+            document.getElementById('dashboardButton').style.display = 'block';
+        });
+
+        // Function to update vehicle table
+        function updateVehicleTable() {
+            const tableBody = document.getElementById('vehicleTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            vehicleData.forEach(vehicle => {
+                const row = tableBody.insertRow();
+                row.insertCell(0).textContent = vehicle.name;
+                row.insertCell(1).textContent = vehicle.model;
+                row.insertCell(2).textContent = vehicle.registration;
+                row.insertCell(3).textContent = vehicle.battery;
+            });
+        }
+
+        // Function to handle "Go to Dashboard" button click
+        function goToDashboard() {
+            window.location.href = "histogram.html"; // Redirect to the dashboard page
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battery Health Status</title>
+
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #000000; /* Set text color to black for visibility */
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            background-color: #2196f3;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .sidebar h2 {
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sidebar a {
+            color: #ffffff;
+            padding: 12px 20px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar a i {
+            margin-right: 10px;
+        }
+
+        .sidebar a:hover {
+            background-color: #1a2851;
+        }
+
+        /* Back Button Styling */
+        .back-button-container {
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+        }
+
+        .back-button {
+            background-color: #2196f3;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            background-color: #1a2851;
+        }
+
+        /* Table Container Styling */
+        .table-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Table Styling */
+        .status-table {
+            width: 80%;
+            max-width: 800px;
+            border-collapse: collapse;
+            background-color: #2b2b2b;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .status-table th, .status-table td {
+            padding: 12px 15px;
+            text-align: left;
+            color: #ffffff; /* Set text color for table content */
+        }
+
+        .status-table th {
+            background-color: #3e3e3e;
+            font-weight: bold;
+            color: #b0b0b0;
+        }
+
+        .status-table tbody tr:nth-child(even) {
+            background-color: #353535;
+        }
+
+        .status-table tbody tr:hover {
+            background-color: #454545;
+        }
+
+        /* Column Widths */
+        .status-table .col-app {
+            width: 40%;
+        }
+
+        .status-table .col-latency, 
+        .status-table .col-error, 
+        .status-table .col-requests {
+            width: 20%;
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 150px;
+            }
+            .table-container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Table Container -->
+    <div class="table-container">
+        <table class="status-table">
+            <thead>
+                <tr>
+                    <th class="col-app">Application</th>
+                    <th class="col-latency">PB3 Latency (in ms)</th>
+                    <th class="col-error">Error Rate (in %)</th>
+                    <th class="col-requests">Requests Per Second</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Frontend</td>
+                    <td>1166.18</td>
+                    <td>0.00</td>
+                    <td>0.91</td>
+                </tr>
+                <tr>
+                    <td>Customer</td>
+                    <td>710.48</td>
+                    <td>0.00</td>
+                    <td>0.81</td>
+                </tr>
+                <tr>
+                    <td>Driver</td>
+                    <td>358.84</td>
+                    <td>0.00</td>
+                    <td>0.91</td>
+                </tr>
+                <tr>
+                    <td>Battery</td>
+                    <td>86.79</td>
+                    <td>0.00</td>
+                    <td>8.12</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Back Button Container -->
+    <div class="back-button-container">
+        <button class="back-button" onclick="window.history.back()">Back</button>
+    </div>
+
+</body>
+</html>
