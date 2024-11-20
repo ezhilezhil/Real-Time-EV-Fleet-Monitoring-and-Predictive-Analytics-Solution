@@ -44,5 +44,9 @@ def Driver_Behavior_and_Maintenance_Alerts():
 def Report_Generation():
     return render_template("Report Generation.html")
 
+@app.route("/vehicle_Registration.html")
+def vehicle_registration():
+    return render_template("vehicle_registration.html")
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
