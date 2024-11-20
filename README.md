@@ -85,7 +85,7 @@ Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution/
 │   ├── battery_health.html
 │   └── ...              # Other HTML files
 ├── static/              # Static files (CSS, JS, images)
-├── requirements.txt     # Python dependencies
+├── license              # Python dependencies
 ├── README.md            # Project documentation
 └── database/            # Database files
 ```
