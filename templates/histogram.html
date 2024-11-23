@@ -163,7 +163,7 @@
                 </div>
                 <div class="info-box">
                     <i class="fas fa-thermometer-half"></i>
-                    <h3>21.9°C</h3>
+                    <h3 id="currentTemp">Loading...</h3>
                     <p>Current Temperature</p>
                     <small>Chennai</small>
                 </div>
@@ -175,21 +175,9 @@
             <!-- Button -->
             <div style="text-align: center; margin-top: 20px;">
                 <button 
-                    style="
-                        background-color: #2196f3; 
-                        color: white; 
-                        border: none; 
-                        padding: 10px 20px; 
-                        border-radius: 5px; 
-                        font-size: 1em; 
-                        cursor: pointer; 
-                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-                        transition: transform 0.2s ease;
-                    " 
-                    onmouseover="this.style.transform='scale(1.05)'" 
-                    onmouseout="this.style.transform='scale(1)'"
-                    onclick="redirectToVehicleRegistration()"
-                >
+                    style="background-color: #2196f3; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-size: 1em; cursor: pointer; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.2s ease;" 
+                    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"
+                    onclick="redirectToVehicleRegistration()">
                     Vehicle Registration
                 </button>
             </div>
@@ -197,7 +185,32 @@
     </div>
 
     <script>
-        // Sample data for "Charging_Load_kW" - replace with actual data from your dataset
+        // Fetch the weather data from OpenWeather API
+        async function fetchWeatherData() {
+            const apiKey = '269cd9d63b71b57a3134fbe597aceb8b';  // Replace with your actual OpenWeather API key
+            const city = 'Delhi';  // Replace with the city you want to get the weather for
+            const countryCode = 'India';
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+            
+            try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data && data.main && data.main.temp) {
+            document.getElementById('currentTemp').innerText = `${data.main.temp}°C`;
+        } else {
+            document.getElementById('currentTemp').innerText = 'N/A';
+        }
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
+        document.getElementById('currentTemp').innerText = 'Error';
+    }
+}
+
+// Call the fetchWeatherData function when the page loads
+window.onload = fetchWeatherData;
+
+        // Sample data for "Charging_Load_kW"
         const chargingLoadData = [30.8, 47.3, 44.5, 52.4, 53.4, 60.1, 65.2, 70.3, 48.6, 55.1, 59.7, 62.9];
 
         // Chart.js histogram
@@ -216,42 +229,20 @@
             },
             options: {
                 responsive: true,
-                animation: {
-                    duration: 1500,
-                    easing: 'easeOutBounce'
-                },
                 scales: {
                     y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Charging Load (kW)'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Month'
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top'
-                    },
-                    tooltip: {
-                        enabled: true
+                        beginAtZero: true
                     }
                 }
             }
         });
 
-        // Button click handler
+        // Call the fetchWeatherData function when the page loads
+        window.onload = fetchWeatherData;
+
+        // Redirect to Vehicle Registration page
         function redirectToVehicleRegistration() {
-            alert('Redirecting to Vehicle Registration...');
-            // Redirect to the Vehicle Registration page
-            window.location.href = 'vehicle_Registration.html';
+            window.location.href = "vehicle_Registration.html";
         }
     </script>
 </body>
