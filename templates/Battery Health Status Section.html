@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Battery Health Status</title>
+    <title>Battery Health and Map</title>
 
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Leaflet CSS for OpenStreetMap -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <style>
         /* General Styling */
@@ -129,6 +132,15 @@
             width: 20%;
         }
 
+        /* Map Styling */
+        #map {
+            height: 300px; /* Height of the map */
+            margin: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
         /* Responsive Layout */
         @media (max-width: 768px) {
             .sidebar {
@@ -147,6 +159,9 @@
     </style>
 </head>
 <body>
+
+    <!-- Map Section -->
+    <div id="map"></div>
 
     <!-- Table Container -->
     <div class="table-container">
@@ -192,6 +207,23 @@
     <div class="back-button-container">
         <button class="back-button" onclick="window.history.back()">Back</button>
     </div>
+
+    <!-- Leaflet JS for OpenStreetMap -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([51.505, -0.09], 13);
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Add a marker
+        L.marker([51.505, -0.09]).addTo(map)
+            .bindPopup('Marker on OpenStreetMap!')
+            .openPopup();
+    </script>
 
 </body>
 </html>
