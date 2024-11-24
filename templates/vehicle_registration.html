@@ -105,84 +105,52 @@
     </div>
 
     <script>
-        // Simulate a local array to store registered vehicles
-        const vehicleData = [];
-
-        // Function to handle form submission and add vehicle to table
-        document.getElementById('vehicleForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            // Get form values
-            const vehicleName = document.getElementById('vehicleName').value;
-            const vehicleModel = document.getElementById('vehicleModel').value;
-            const registrationNumber = document.getElementById('registrationNumber').value;
-            const batteryCapacity = document.getElementById('batteryCapacity').value;
-
-            // Add new vehicle data to array
-            const newVehicle = {
-                name: vehicleName,
-                model: vehicleModel,
-                registration: registrationNumber,
-                battery: batteryCapacity
-            };
-            vehicleData.push(newVehicle);
-
-            // Reset form fields
-            document.getElementById('vehicleForm').reset();
-
-            // Display the updated vehicle data in the table
-            updateVehicleTable();
-
-            // Show the "Go to Dashboard" button
-            document.getElementById('dashboardButton').style.display = 'block';
-        });
-
-        // Function to update vehicle table
-        function updateVehicleTable() {
-            const tableBody = document.getElementById('vehicleTable').getElementsByTagName('tbody')[0];
-            tableBody.innerHTML = ''; // Clear existing rows
-
-            vehicleData.forEach(vehicle => {
-                const row = tableBody.insertRow();
-                row.insertCell(0).textContent = vehicle.name;
-                row.insertCell(1).textContent = vehicle.model;
-                row.insertCell(2).textContent = vehicle.registration;
-                row.insertCell(3).textContent = vehicle.battery;
-            });
-        }
-
-        // Function to handle "Go to Dashboard" button click
-        function goToDashboard() {
-            window.location.href = "histogram.html"; // Redirect to the dashboard page
-        }
-
-        // Add vehicle via API
-    document.getElementById('vehicleForm').addEventListener('submit', async function(event) {
-        event.preventDefault();
-
-        const vehicleData = {
-            vehicle_name: document.getElementById('vehicleName').value,
-            vehicle_model: document.getElementById('vehicleModel').value,
-            registration_number: document.getElementById('registrationNumber').value,
-            battery_capacity: parseFloat(document.getElementById('batteryCapacity').value)
-        };
+        document.getElementById('vehicleForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent the form from reloading the page
         
-        const response = await fetch('/register_vehicle', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(vehicleData)
+            // Get form values
+            const vehicleName = document.getElementById('vehicleName').value.trim();
+            const vehicleModel = document.getElementById('vehicleModel').value.trim();
+            const registrationNumber = document.getElementById('registrationNumber').value.trim();
+            const batteryCapacity = document.getElementById('batteryCapacity').value.trim();
+        
+            // Validate form fields
+            if (!vehicleName || !vehicleModel || !registrationNumber || isNaN(batteryCapacity)) {
+                alert('Please fill out all fields correctly.');
+                return;
+            }
+        
+            // Prepare vehicle data object
+            const vehicleData = {
+                vehicle_name: vehicleName,
+                vehicle_model: vehicleModel,
+                registration_number: registrationNumber,
+                battery_capacity: parseFloat(batteryCapacity),
+            };
+        
+            console.log(vehicleData); // Debugging log
+        
+            // Send the data to the backend API
+            try {
+                const response = await fetch('/register_vehicle', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(vehicleData),
+                });
+        
+                if (response.ok) {
+                    alert('Vehicle registered successfully!');
+                    location.reload(); // Reload the page to fetch updated data
+                } else {
+                    const error = await response.json();
+                    alert(`Error: ${error.error}`);
+                }
+            } catch (err) {
+                console.error('Error submitting data:', err);
+                alert('An error occurred while registering the vehicle.');
+            }
         });
-
-        if (response.ok) {
-            alert('Vehicle registered successfully!');
-            location.reload(); // Reload the page
-        } else {
-            const error = await response.json();
-            alert(`Error: ${error.error}`);
-        }
-    });
-
-    // Fetch and display vehicles
+        // Fetch and display vehicles
     async function fetchVehicles() {
         const response = await fetch('/get_vehicles');
         const vehicles = await response.json();
