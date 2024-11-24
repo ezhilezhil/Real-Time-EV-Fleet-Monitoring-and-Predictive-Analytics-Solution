@@ -1,13 +1,11 @@
-from flask import Flask, render_template
-from flask_pymongo import PyMongo
-import requests
+from flask import Flask, render_template, jsonify, request
 from datetime import datetime
+import requests
+from insert_data import insert_vehicle
+from retrieve_data import fetch_all_vehicles
 
 app = Flask(__name__)
 
-# Your MongoDB URI - replace it with your own MongoDB URI (localhost:27017)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/vehicleDB"  # Connect to 'vehicleDB' database
-mongo = PyMongo(app)
 
 # Your OpenWeather API key (replace with your own API key)
 API_KEY = '269cd9d63b71b57a3134fbe597aceb8b'
@@ -74,6 +72,28 @@ def histogram():
     return render_template("histogram.html")
 
 # Other routes remain the same...
+
+
+@app.route('/register_vehicle', methods=['POST'])
+def register_vehicle():
+    data = request.json
+    print(data)
+    try:
+        insert_vehicle(
+            data['vehicle_name'],
+            data['vehicle_model'],
+            data['registration_number'],
+            data['battery_capacity']
+        )
+        return jsonify({"message": "Vehicle registered successfully."}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/get_vehicles', methods=['GET'])
+def get_vehicles():
+    vehicles = fetch_all_vehicles()
+    return jsonify(vehicles), 200
+
 
 if __name__ == "__main__":
     # Run the app with debugging enabled

@@ -155,6 +155,53 @@
         function goToDashboard() {
             window.location.href = "histogram.html"; // Redirect to the dashboard page
         }
+
+        // Add vehicle via API
+    document.getElementById('vehicleForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const vehicleData = {
+            vehicle_name: document.getElementById('vehicleName').value,
+            vehicle_model: document.getElementById('vehicleModel').value,
+            registration_number: document.getElementById('registrationNumber').value,
+            battery_capacity: parseFloat(document.getElementById('batteryCapacity').value)
+        };
+        
+        const response = await fetch('/register_vehicle', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(vehicleData)
+        });
+
+        if (response.ok) {
+            alert('Vehicle registered successfully!');
+            location.reload(); // Reload the page
+        } else {
+            const error = await response.json();
+            alert(`Error: ${error.error}`);
+        }
+    });
+
+    // Fetch and display vehicles
+    async function fetchVehicles() {
+        const response = await fetch('/get_vehicles');
+        const vehicles = await response.json();
+
+        const tableBody = document.querySelector('#vehicleTable tbody');
+        tableBody.innerHTML = ''; // Clear table
+
+        vehicles.forEach(vehicle => {
+            const row = tableBody.insertRow();
+            row.insertCell(0).textContent = vehicle[1]; // Vehicle Name
+            row.insertCell(1).textContent = vehicle[2]; // Model
+            row.insertCell(2).textContent = vehicle[3]; // Registration Number
+            row.insertCell(3).textContent = vehicle[4]; // Battery Capacity
+        });
+    }
+
+    // Call fetchVehicles on page load
+    fetchVehicles();
+
     </script>
 </body>
 </html>
