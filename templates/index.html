@@ -100,7 +100,7 @@
                 localStorage.setItem("loggedIn", "true");
 
                 // Redirect to histogram.html (or your desired page)
-                window.location.href = "histogram.html";
+                window.location.href = "login.html";
             } else {
                 errorMessage.style.color = "red";
                 errorMessage.innerText = "Invalid email or password!";
@@ -112,7 +112,7 @@
             const loggedIn = localStorage.getItem("loggedIn");
             if (loggedIn === "true") {
                 // If already logged in, redirect to the dashboard
-                window.location.href = "histogram.html"; 
+                window.location.href = "login.html"; 
             }
         };
 
