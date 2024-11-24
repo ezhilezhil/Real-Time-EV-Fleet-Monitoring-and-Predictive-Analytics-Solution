@@ -80,7 +80,6 @@
         <a href="register.html" class="create-account">Create New Account</a>
         <p class="error-message" id="error-message"></p>
     </div>
-    
 
     <script>
         // Set default admin email and password
@@ -96,40 +95,43 @@
             if (email === defaultEmail && password === defaultPassword) {
                 errorMessage.style.color = "green";
                 errorMessage.innerText = "Login successful!";
-                // Redirect to a new page or perform any further actions here
+
+                // Store login state in localStorage
+                localStorage.setItem("loggedIn", "true");
+
+                // Redirect to histogram.html (or your desired page)
+                window.location.href = "histogram.html";
             } else {
                 errorMessage.style.color = "red";
                 errorMessage.innerText = "Invalid email or password!";
             }
         }
-        // Function to handle login
-function login() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const errorMessage = document.getElementById("error-message");
 
-    if (email === defaultEmail && password === defaultPassword) {
-        errorMessage.style.color = "green";
-        errorMessage.innerText = "Login successful!";
-        
-        // Redirect to dashboard.html
-        window.location.href = "histogram.html";
-    } else {
-        errorMessage.style.color = "red";
-        errorMessage.innerText = "Invalid email or password!";
-    }
-}
+        // Check if the user is logged in (check localStorage)
+        window.onload = function() {
+            const loggedIn = localStorage.getItem("loggedIn");
+            if (loggedIn === "true") {
+                // If already logged in, redirect to the dashboard
+                window.location.href = "histogram.html"; 
+            }
+        };
 
+        // Function to handle logout (you would call this on your dashboard page)
+        function logout() {
+            // Clear login state in localStorage
+            localStorage.removeItem("loggedIn");
 
-        // Function to handle forgotten account
-        function forgotAccount() {
-            alert("Please contact support to recover your account.");
+            // Redirect back to login page
+            window.location.href = "login.html";
         }
 
-        // Function to handle creating a new account
-        function createAccount() {
-            alert("Redirecting to account creation page...");
-            // Here you can add logic to redirect to a signup page or perform account creation actions
+        // Check if the user is logged in when accessing the dashboard page
+        if (window.location.href.indexOf('histogram.html') !== -1) {
+            const loggedIn = localStorage.getItem("loggedIn");
+            if (!loggedIn || loggedIn !== "true") {
+                // Redirect to login if not logged in
+                window.location.href = "login.html";
+            }
         }
     </script>
 </body>

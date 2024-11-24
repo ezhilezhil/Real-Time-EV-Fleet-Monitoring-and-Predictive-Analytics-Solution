@@ -3,80 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Route Animation: Bike from Chennai to Bangalore</title>
+    <title>Map and Table Alignment</title>
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
 
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            height: 100vh;
         }
-        #map {
+
+        .header {
+            background-color: #2196f3;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+
+        #content {
+            display: flex;
             flex: 1;
+            overflow: hidden;
+        }
+
+        #map {
+            flex: 2;
+            height: 100%;
+            border-right: 2px solid #ddd;
+        }
+
+        .table-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 20px;
+        }
+
+        .status-table {
+            width: 90%;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .status-table th, .status-table td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .status-table th {
+            background-color: #2196f3;
+            color: white;
+        }
+
+        .status-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .status-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .bike-marker {
+            width: 50px;
+            height: 50px;
+            background-image: url('../static/bike.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .back-button {
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            align-self: center;
+        }
+
+        .back-button:hover {
+            background-color: #1768ac;
         }
     </style>
 </head>
 <body>
 
-    <div id="map"></div>
+    <!-- Header Section -->
+    <div class="header">
+        <h2>Real-Time Monitoring</h2>
+    </div>
+
+    <!-- Main Content -->
+    <div id="content">
+        <!-- Map Section -->
+        <div id="map"></div>
+
+        <!-- Table Section -->
+        <div class="table-container">
+            <table class="status-table">
+                <thead>
+                    <tr>
+                        <th>Application</th>
+                        <th>Latency (ms)</th>
+                        <th>Error Rate (%)</th>
+                        <th>Requests/sec</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Frontend</td>
+                        <td>1166.18</td>
+                        <td>0.00</td>
+                        <td>0.91</td>
+                    </tr>
+                    <tr>
+                        <td>Customer</td>
+                        <td>710.48</td>
+                        <td>0.00</td>
+                        <td>0.81</td>
+                    </tr>
+                    <tr>
+                        <td>Driver</td>
+                        <td>358.84</td>
+                        <td>0.00</td>
+                        <td>0.91</td>
+                    </tr>
+                    <tr>
+                        <td>Battery</td>
+                        <td>86.79</td>
+                        <td>0.00</td>
+                        <td>8.12</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="back-button" onclick="goBack()">Back</button>
+        </div>
+    </div>
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 
     <script>
+        // Back button functionality
+        function goBack() {
+            window.history.back();
+        }
+
         // Initialize the map
-        const map = L.map('map').setView([12.9716, 77.5946], 7); // Center map near Bangalore
+        const map = L.map('map').setView([12.2253, 79.0747], 8); // Center the map
 
         // Add OpenStreetMap tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Bike marker icon
-        const bikeIcon = L.icon({
-            iconUrl: '../static/bike.png', // URL to a bike icon
-            iconSize: [40, 40], // Size of the icon
-            iconAnchor: [20, 20] // Anchor of the icon
-        });
-
-        // Add routing control
+        // Add routing control without the direction box
         const control = L.Routing.control({
             waypoints: [
                 L.latLng(13.0827, 80.2707), // Chennai
-                L.latLng(12.9716, 77.5946)  // Bangalore
+                L.latLng(12.2253, 79.0747)  // Tiruvannamalai
             ],
             routeWhileDragging: false,
             lineOptions: {
                 styles: [{ color: 'blue', weight: 5, opacity: 0.8 }]
-            }
+            },
+            createMarker: () => null, // Disable start/end markers
+            show: false // Disable the directions box
         }).addTo(map);
+
+        // Create a custom animated bike icon
+        const bikeDivIcon = L.divIcon({
+            className: 'bike-marker',
+            iconSize: [50, 50],
+            iconAnchor: [25, 25] // Center the icon
+        });
 
         // Listen for routes to be calculated
         control.on('routesfound', function(e) {
             const route = e.routes[0];
             const coordinates = route.coordinates;
 
-            // Add the bike marker
-            const bikeMarker = L.marker(coordinates[0], { icon: bikeIcon }).addTo(map);
+            // Add a bike marker at the start of the route
+            const bikeMarker = L.marker(coordinates[0], { icon: bikeDivIcon }).addTo(map);
 
-            // Function to animate the bike
+            // Animate the bike along the route
             let index = 0;
             function moveBike() {
                 if (index < coordinates.length) {
-                    bikeMarker.setLatLng(coordinates[index]);
+                    bikeMarker.setLatLng(coordinates[index]); // Move the bike to the next point
                     index++;
-                    requestAnimationFrame(moveBike); // Request next animation frame
+                    requestAnimationFrame(moveBike); // Continue the animation
                 }
             }
 
-            // Start the animation
+            // Start the bike animation
             moveBike();
         });
     </script>
