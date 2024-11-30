@@ -3,6 +3,8 @@ from datetime import datetime
 import requests
 from insert_data import insert_vehicle
 from retrieve_data import fetch_all_vehicles
+import random
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -94,6 +96,50 @@ def get_vehicles():
     vehicles = fetch_all_vehicles()
     return jsonify(vehicles), 200
 
+# Define the battery status prediction function
+def predict_battery_status():
+    battery_status_map = {0: "Excellent", 1: "Fair", 2: "Good", 3: "Needs Replacement"}
+    # Generate a random prediction
+    prediction_key = random.randint(0, 3)
+    return battery_status_map[prediction_key]
+
+@app.route('/')
+def home():
+    return render_template("predict_battery.html")
+
+@app.route('/battery_health_status', methods=["POST"])
+def battery_health_status():
+    # Get input data from form (not actually used here since prediction is random)
+    capacity = request.form["capacity"]
+    cycle_count = request.form["cycle_count"]
+    voltage = request.form["voltage"]
+    temperature = request.form["temperature"]
+    internal_resistance = request.form["internal_resistance"]
+
+    # Generate random prediction
+    prediction = predict_battery_status()
+
+    return render_template(
+        "predict_battery.html",
+        prediction=prediction,
+        input_data={
+            "capacity": capacity,
+            "cycle_count": cycle_count,
+            "voltage": voltage,
+            "temperature": temperature,
+            "internal_resistance": internal_resistance,
+        },
+    )
+
+@app.route('/optimize_route')
+def optimize_route():
+    # Mock route suggestions
+    route_suggestions = [
+        "Route 1: Start → Charging Station A → Destination",
+        "Route 2: Start → Charging Station B → Destination",
+        "Route 3: Start → Charging Station C → Destination"
+    ]
+    return render_template('optimize_route.html', routes=route_suggestions)
 
 if __name__ == "__main__":
     # Run the app with debugging enabled

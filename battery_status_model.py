@@ -23,7 +23,7 @@ def battery_status_prediction(input_data):
 
 
 # Example input data
-input_data = [4100, 96, 110, 4.0, 28, 651]
+input_data = [4500,78,300,3.9,38,120]
 
 # Call the function and print the result
 status = battery_status_prediction(input_data)

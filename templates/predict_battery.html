@@ -17,55 +17,6 @@
             color: #6c757d;
         }
     </style>
-    <script>
-        // Function to dynamically show optimized route suggestions
-        function showRoutes() {
-            console.log("Optimize Route button clicked."); // Debugging log
-            const routesContainer = document.getElementById("route-suggestions");
-            const routes = [
-                { name: "Start → Charging Station A → Destination", distance: "15 km", time: "20 minutes" },
-                { name: "Start → Charging Station B → Destination", distance: "18 km", time: "25 minutes" },
-                { name: "Start → Charging Station C → Destination", distance: "12 km", time: "15 minutes" }
-            ];
-            
-            if (routesContainer) {
-                let routesHTML = `
-                    <h4 class="mt-4 text-primary">Optimized Routes</h4>
-                    <table class="table table-striped mt-3">
-                        <thead class="table-primary">
-                            <tr>
-                                <th>#</th>
-                                <th>Route Name</th>
-                                <th>Distance</th>
-                                <th>Estimated Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>`;
-                
-                routes.forEach((route, index) => {
-                    routesHTML += `
-                        <tr>
-                            <td>${index + 1}</td>
-                            <td>${route.name}</td>
-                            <td>${route.distance}</td>
-                            <td>${route.time}</td>
-                        </tr>`;
-                });
-                
-                routesHTML += `
-                        </tbody>
-                    </table>
-                    <div class="text-center mt-3">
-                        <a href="/dashboard" class="btn btn-secondary">Go to Dashboard</a>
-                    </div>`;
-                
-                routesContainer.innerHTML = routesHTML;
-                console.log("Routes displayed successfully."); // Debugging log
-            } else {
-                console.error("Route container not found!"); // Error handling
-            }
-        }
-    </script>
 </head>
 <body>
     <div class="container mt-5 shadow p-4 bg-white rounded">
@@ -102,12 +53,9 @@
         <div class="mt-4 alert alert-success">
             <h4>Battery Status:</h4>
             <p class="mb-0">{{ prediction }}</p>
-            <button onclick="showRoutes()" class="btn btn-outline-primary mt-4 w-100">Optimize Route</button>
         </div>
         {% endif %}
-
-        <!-- Route suggestions will be dynamically inserted here -->
-        <div id="route-suggestions"></div>
     </div>
+  
 </body>
 </html>
