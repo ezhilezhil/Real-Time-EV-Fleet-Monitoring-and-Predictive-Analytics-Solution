@@ -1,85 +1,70 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, request, jsonify
+import pickle
+import random
 from datetime import datetime
 import requests
 from insert_data import insert_vehicle
 from retrieve_data import fetch_all_vehicles
-import random
-from flask import Flask, render_template, request
+import numpy as np
 
 app = Flask(__name__)
 
+# Load the trained battery status prediction model
+with open("battery_health_model.pkl", "rb") as model_file:
+    model = pickle.load(model_file)
 
-# Your OpenWeather API key (replace with your own API key)
+# OpenWeather API details
 API_KEY = '269cd9d63b71b57a3134fbe597aceb8b'
-CITY = 'India'  # Replace with the city for which you want the weather data
-
-# OpenWeather API URL
+CITY = 'India'
 BASE_URL = f'http://api.openweathermap.org/data/2.5/weather?q={CITY}&appid={API_KEY}&units=metric'
-
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
-
-# Login page route
 @app.route("/login.html")
 def login():
     return render_template("login.html")
 
-# Register page route
 @app.route("/register.html")
 def register():
     return render_template("register.html")
 
-# Forgot Password page route
 @app.route("/forgot_password.html")
 def forgot_password():
     return render_template("forgot_password.html")
 
-# Battery Health Status Section route
 @app.route("/Battery Health Status Section.html")
 def Battery_Health_Status_Section():
     return render_template("Battery Health Status Section.html")
 
-# Cost and Energy Consumption page route
 @app.route("/Cost and Energy Consumption.html")
 def Cost_and_Energy_Consumption():
     return render_template("Cost and Energy Consumption.html")
 
-# Display Behavior Analysis and Alerts page route
 @app.route("/Display Behavior Analysis and Alerts.html")
 def Display_Behavior_Analysis_and_Alerts():
     return render_template("Display Behavior Analysis and Alerts.html")
 
-# Driver Behavior and Maintenance Alerts page route
 @app.route("/Driver Behavior and Maintenance Alerts.html")
 def Driver_Behavior_and_Maintenance_Alerts():
     return render_template("Driver Behavior and Maintenance Alerts.html")
 
-# Report Generation page route
 @app.route("/Report Generation.html")
 def Report_Generation():
     return render_template("Report Generation.html")
 
-# Vehicle Registration page route
-@app.route("/vehicle_Registration.html")
+@app.route("/vehicle_registration.html")
 def vehicle_registration():
     return render_template("vehicle_registration.html")
 
-
-# Histogram page route
 @app.route("/histogram.html")
 def histogram():
     return render_template("histogram.html")
 
-# Other routes remain the same...
-
-
 @app.route('/register_vehicle', methods=['POST'])
 def register_vehicle():
     data = request.json
-    print(data)
     try:
         insert_vehicle(
             data['vehicle_name'],
@@ -96,40 +81,37 @@ def get_vehicles():
     vehicles = fetch_all_vehicles()
     return jsonify(vehicles), 200
 
-# Define the battery status prediction function
-def predict_battery_status():
-    battery_status_map = {0: "Excellent", 1: "Fair", 2: "Good", 3: "Needs Replacement"}
-    # Generate a random prediction
-    prediction_key = random.randint(0, 3)
-    return battery_status_map[prediction_key]
-
-@app.route('/')
-def home():
-    return render_template("predict_battery.html")
-
-@app.route('/battery_health_status', methods=["POST"])
+@app.route('/battery_health_status', methods=['POST'])
 def battery_health_status():
-    # Get input data from form (not actually used here since prediction is random)
-    capacity = request.form["capacity"]
-    cycle_count = request.form["cycle_count"]
-    voltage = request.form["voltage"]
-    temperature = request.form["temperature"]
-    internal_resistance = request.form["internal_resistance"]
-
-    # Generate random prediction
-    prediction = predict_battery_status()
-
-    return render_template(
-        "predict_battery.html",
-        prediction=prediction,
-        input_data={
-            "capacity": capacity,
-            "cycle_count": cycle_count,
-            "voltage": voltage,
-            "temperature": temperature,
-            "internal_resistance": internal_resistance,
-        },
-    )
+    try:
+        # Get form inputs
+        capacity = float(request.form['capacity'])
+        cycle_count = int(request.form['cycle_count'])
+        voltage = float(request.form['voltage'])
+        temperature = float(request.form['temperature'])
+        resistance = float(request.form['resistance'])
+        
+        # Create feature array for prediction
+        features = np.array([[capacity, cycle_count, voltage, temperature, resistance]])
+        
+        # Make prediction
+        prediction = model.predict(features)
+        health_percentage = prediction[0]
+        
+        # Categorize battery health based on predicted percentage
+        if health_percentage >= 90:
+            health_status = "Excellent"
+        elif 80 <= health_percentage < 90:
+            health_status = "Good"
+        elif 60 <= health_percentage < 80:
+            health_status = "Fair"
+        else:
+            health_status = "Needs Replacement"
+        
+        # Return the result with the health status
+        return render_template('Battery Health Status Section.html', prediction_text=f"Predicted Battery Health: {health_percentage:.2f}% - {health_status}")
+    except Exception as e:
+        return render_template('Battery Health Status Section.html', prediction_text=f"Error: {e}")
 
 @app.route('/optimize_route')
 def optimize_route():
