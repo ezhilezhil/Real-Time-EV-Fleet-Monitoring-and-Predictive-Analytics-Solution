@@ -6,12 +6,22 @@ import requests
 from insert_data import insert_vehicle
 from retrieve_data import fetch_all_vehicles
 import numpy as np
+import pandas as pd
+from geopy.geocoders import Nominatim
+from geopy.distance import geodesic
 
 app = Flask(__name__)
 
 # Load the trained battery status prediction model
 with open("battery_health_model.pkl", "rb") as model_file:
     model = pickle.load(model_file)
+    
+# Load the dataset from the pickle file
+data_file = "Tamilnadu_EV_Stations.pkl"
+ev_stations = pd.read_pickle(data_file)
+
+# Initialize the geocoder
+geolocator = Nominatim(user_agent="ev_station_locator")
 
 # OpenWeather API details
 API_KEY = '269cd9d63b71b57a3134fbe597aceb8b'
@@ -113,15 +123,42 @@ def battery_health_status():
     except Exception as e:
         return render_template('Battery Health Status Section.html', prediction_text=f"Error: {e}")
 
-@app.route('/optimize_route')
+@app.route('/optimize_route', methods=['POST'])
 def optimize_route():
-    # Mock route suggestions
-    route_suggestions = [
-        "Route 1: Start → Charging Station A → Destination",
-        "Route 2: Start → Charging Station B → Destination",
-        "Route 3: Start → Charging Station C → Destination"
-    ]
-    return render_template('optimize_route.html', routes=route_suggestions)
+    # Get source and destination from the form
+    source_city = request.form.get('source_city')
+    dest_city = request.form.get('dest_city')
+
+    # Get coordinates for the source and destination cities
+    source_location = geolocator.geocode(source_city)
+    dest_location = geolocator.geocode(dest_city)
+
+    if not source_location or not dest_location:
+        return render_template('optimize_route.html', error="Could not find the location. Please check the city names.")
+
+    source_coords = (source_location.latitude, source_location.longitude)
+    destination_coords = (dest_location.latitude, dest_location.longitude)
+
+    # Filter EV stations within 10 km of the source or destination
+    stations_near_route = []
+    for _, row in ev_stations.iterrows():
+        station_coords = (row['Latitude'], row['Longitude'])
+        if geodesic(source_coords, station_coords).km <= 10 or geodesic(destination_coords, station_coords).km <= 10:
+            stations_near_route.append({
+                "name": row['Station Name'],
+                "address": row['Address'],
+                "capacity": row['Charging Capacity'],
+                "facilities": row['Facilities'],
+                "latitude": row['Latitude'],
+                "longitude": row['Longitude']
+            })
+
+    return render_template('optimize_route.html', stations=stations_near_route)
+
+@app.route('/optimize_route')
+def optimize_route1():
+    return render_template('optimize_route.html')
+
 
 if __name__ == "__main__":
     # Run the app with debugging enabled
