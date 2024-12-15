@@ -104,7 +104,7 @@
                 <i class="fas fa-calendar-alt card-icon"></i>
                 <div class="text-end">
                     <h6>Earnings (Monthly)</h6>
-                    <h4>$40,000</h4>
+                    <h4>$17,608</h4>
                 </div>
             </div>
         </div>
@@ -115,7 +115,7 @@
                 <i class="fas fa-dollar-sign card-icon"></i>
                 <div class="text-end">
                     <h6>Earnings (Annual)</h6>
-                    <h4>$215,000</h4>
+                    <h4>$211,300</h4>
                 </div>
             </div>
         </div>
@@ -181,7 +181,7 @@
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 datasets: [{
                     label: 'Earnings',
-                    data: [3000, 5000, 7000, 6000, 8000, 9000, 10000, 11000, 12000, 13000, 15000, 18000],
+                    data: [15000, 16000, 18000, 16000, 17000, 18500, 17300, 18000, 19000, 20000, 18500, 19000],
                     borderColor: '#4e73df',
                     backgroundColor: 'rgba(78, 115, 223, 0.1)',
                     tension: 0.4,
@@ -214,9 +214,14 @@
                 responsive: true,
                 plugins: {
                     legend: {
-                        position: 'top'
+                        position: 'bottom',
+                        labels: {
+                        usePointStyle: true,  // Use the pointStyle for the legend marker
+                        boxWidth: 10          // Adjust the size of the legend markers
                     }
-                }
+                    }
+                },
+                cutout : '80%',
             }
         });
     </script>
