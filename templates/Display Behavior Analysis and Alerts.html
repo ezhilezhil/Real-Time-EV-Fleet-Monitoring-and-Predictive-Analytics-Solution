@@ -234,7 +234,7 @@
                 <i data-feather="mail"></i>
                 Subscribe
             </button>
-            <button class="nav-button" id="go-back-button">
+            <button class="nav-button" id="go-back-button" onclick="goBack()">
                 <i data-feather="arrow-left"></i>
                 Back
             </button>
@@ -393,6 +393,9 @@
             });
         });
 
+        function goBack() {
+    window.location.href = 'histogram.html';
+}
         // Handle form submissions
         document.querySelectorAll('form').forEach(form => {
             form.addEventListener('submit', function(e) {
