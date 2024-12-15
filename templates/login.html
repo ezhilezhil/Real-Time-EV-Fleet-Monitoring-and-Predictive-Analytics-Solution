@@ -15,7 +15,7 @@
             margin: 0;
             background-color: #f0f2f5;
         }
-
+        
         .login-container {
             width: 300px;
             padding: 20px;
@@ -46,7 +46,8 @@
             cursor: pointer;
         }
 
-        .login-container .forgot-account {
+        .login-container .forgot-account,
+        .login-container .create-account {
             margin: 10px 0;
             color: #1877f2;
             cursor: pointer;
@@ -61,12 +62,17 @@
             border-radius: 4px;
             display: inline-block;
             margin-top: 10px;
-            text-decoration: none;
         }
 
         .error-message {
             color: red;
             font-size: 14px;
+        }
+
+        .testing-note {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #555;
         }
     </style>
 </head>
@@ -76,9 +82,10 @@
         <input type="text" id="email" placeholder="Email address or phone number">
         <input type="password" id="password" placeholder="Password">
         <button onclick="login()">Log In</button>
-        <p class="forgot-account" onclick="forgotAccount()">Forgotten account?</p>
+        <p class="forgot-account"><a href="forgot_password.html" style="color: #1877f2; text-decoration: none;">Forgotten account?</a></p>
         <a href="register.html" class="create-account">Create New Account</a>
         <p class="error-message" id="error-message"></p>
+        <p class="testing-note">Note: Use username <b>admin</b> and password <b>123</b> for testing purposes.</p>
     </div>
 
     <script>
@@ -95,17 +102,43 @@
             if (email === defaultEmail && password === defaultPassword) {
                 errorMessage.style.color = "green";
                 errorMessage.innerText = "Login successful!";
-                // Redirect to a new page or perform any further actions here
-                window.location.href = "histogram.html"; // Example redirection
+
+                // Store login state in localStorage
+                localStorage.setItem("loggedIn", "true");
+
+                // Redirect to histogram.html (or your desired page)
+                window.location.href = "histogram.html";
             } else {
                 errorMessage.style.color = "red";
                 errorMessage.innerText = "Invalid email or password!";
             }
         }
 
-        // Function to handle forgotten account
-        function forgotAccount() {
-            alert("Please contact support to recover your account.");
+        // Check if the user is logged in (check localStorage)
+        window.onload = function() {
+            const loggedIn = localStorage.getItem("loggedIn");
+            if (loggedIn === "true") {
+                // If already logged in, redirect to the dashboard
+                window.location.href = "login.html"; 
+            }
+        };
+
+        // Function to handle logout (you would call this on your dashboard page)
+        function logout() {
+            // Clear login state in localStorage
+            localStorage.removeItem("loggedIn");
+
+            // Redirect back to login page
+            window.location.href = "login.html";
+        }
+
+        // Check if the user is logged in when accessing the dashboard page
+        if (window.location.href.indexOf('histogram.html') !== -1) {
+            const loggedIn = localStorage.getItem("loggedIn");
+            if (!loggedIn || loggedIn !== "true") {
+                // Redirect to login if not logged in
+                window.location.href = "login.html";
+            }
         }
     </script>
 </body>
