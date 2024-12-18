@@ -15,7 +15,7 @@
             margin: 0;
             background-color: #f0f2f5;
         }
-        
+
         .login-container {
             width: 300px;
             padding: 20px;
@@ -67,6 +67,8 @@
         .error-message {
             color: red;
             font-size: 14px;
+            margin-top: 5px;
+            text-align: left;
         }
 
         .testing-note {
@@ -79,65 +81,71 @@
 <body>
     <div class="login-container">
         <h2>Login</h2>
-        <input type="text" id="email" placeholder="Email address or phone number">
-        <input type="password" id="password" placeholder="Password">
+        <input type="text" id="email" placeholder="Email address or phone number" onblur="validateEmail()" onfocus="clearError('email-error')">
+        <p class="error-message" id="email-error"></p>
+        <input type="password" id="password" placeholder="Password" disabled onfocus="validatePassword()" onblur="clearError('password-error')">
+        <p class="error-message" id="password-error"></p>
         <button onclick="login()">Log In</button>
         <p class="forgot-account"><a href="forgot_password.html" style="color: #1877f2; text-decoration: none;">Forgotten account?</a></p>
         <a href="register.html" class="create-account">Create New Account</a>
-        <p class="error-message" id="error-message"></p>
         <p class="testing-note">Note: Use username <b>admin</b> and password <b>123</b> for testing purposes.</p>
     </div>
 
     <script>
-        // Set default admin email and password
         const defaultEmail = "admin";
         const defaultPassword = "123";
 
-        // Function to handle login
+        function validateEmail() {
+            const email = document.getElementById("email").value;
+            const emailError = document.getElementById("email-error");
+            const passwordField = document.getElementById("password");
+
+            if (!email) {
+                emailError.innerText = "Please enter your email.";
+                passwordField.disabled = true;
+            } else {
+                emailError.innerText = "";
+                passwordField.disabled = false; // Enable password field if email is filled
+            }
+        }
+
+        function validatePassword() {
+            const password = document.getElementById("password").value;
+            const passwordError = document.getElementById("password-error");
+
+            if (!password) {
+                passwordError.innerText = "Please enter your password.";
+            } else {
+                passwordError.innerText = "";
+            }
+        }
+
+        function clearError(fieldId) {
+            document.getElementById(fieldId).innerText = "";
+        }
+
         function login() {
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-            const errorMessage = document.getElementById("error-message");
+            const emailError = document.getElementById("email-error");
+            const passwordError = document.getElementById("password-error");
+
+            if (!email) {
+                emailError.innerText = "Please enter your email.";
+                return;
+            }
+
+            if (!password) {
+                passwordError.innerText = "Please enter your password.";
+                return;
+            }
 
             if (email === defaultEmail && password === defaultPassword) {
-                errorMessage.style.color = "green";
-                errorMessage.innerText = "Login successful!";
-
-                // Store login state in localStorage
+                alert("Login successful!");
                 localStorage.setItem("loggedIn", "true");
-
-                // Redirect to histogram.html (or your desired page)
                 window.location.href = "histogram.html";
             } else {
-                errorMessage.style.color = "red";
-                errorMessage.innerText = "Invalid email or password!";
-            }
-        }
-
-        // Check if the user is logged in (check localStorage)
-        window.onload = function() {
-            const loggedIn = localStorage.getItem("loggedIn");
-            if (loggedIn === "true") {
-                // If already logged in, redirect to the dashboard
-                window.location.href = "login.html"; 
-            }
-        };
-
-        // Function to handle logout (you would call this on your dashboard page)
-        function logout() {
-            // Clear login state in localStorage
-            localStorage.removeItem("loggedIn");
-
-            // Redirect back to login page
-            window.location.href = "login.html";
-        }
-
-        // Check if the user is logged in when accessing the dashboard page
-        if (window.location.href.indexOf('histogram.html') !== -1) {
-            const loggedIn = localStorage.getItem("loggedIn");
-            if (!loggedIn || loggedIn !== "true") {
-                // Redirect to login if not logged in
-                window.location.href = "login.html";
+                alert("Invalid email or password!");
             }
         }
     </script>
