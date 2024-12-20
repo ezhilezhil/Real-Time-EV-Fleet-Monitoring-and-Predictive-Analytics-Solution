@@ -13,11 +13,11 @@ from geopy.distance import geodesic
 app = Flask(__name__)
 
 # Load the trained battery status prediction model
-with open("battery_health_model.pkl", "rb") as model_file:
+with open(r"C:\InfosysSpringBoard_Internship\Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution\models\battery_health_model.pkl", "rb") as model_file:
     model = pickle.load(model_file)
     
 # Load the dataset from the pickle file
-data_file = "Tamilnadu_EV_Stations.pkl"
+data_file = r"C:\InfosysSpringBoard_Internship\Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution\models\Tamilnadu_EV_Stations.pkl"
 ev_stations = pd.read_pickle(data_file)
 
 # Initialize the geocoder
@@ -51,6 +51,10 @@ def Battery_Health_Status_Section():
 @app.route("/Cost and Energy Consumption.html")
 def Cost_and_Energy_Consumption():
     return render_template("Cost and Energy Consumption.html")
+
+@app.route("/cost and energy trends.html")
+def cost_and_energy_trends():
+    return render_template("cost and energy trends.html")
 
 @app.route("/Display Behavior Analysis and Alerts.html")
 def Display_Behavior_Analysis_and_Alerts():
@@ -162,4 +166,4 @@ def optimize_route1():
 
 if __name__ == "__main__":
     # Run the app with debugging enabled
-    app.run(host="0.0.0.0", port=5001, debug=True)
+    app.run(port=5000, debug=True)
