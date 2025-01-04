@@ -13,11 +13,11 @@ from geopy.distance import geodesic
 app = Flask(__name__)
 
 # Load the trained battery status prediction model
-with open(r"C:\InfosysSpringBoard_Internship\Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution\models\battery_health_model.pkl", "rb") as model_file:
+with open(r"models\battery_health_model.pkl", "rb") as model_file:
     model = pickle.load(model_file)
     
 # Load the dataset from the pickle file
-data_file = r"C:\InfosysSpringBoard_Internship\Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution\models\Tamilnadu_EV_Stations.pkl"
+data_file = r"\models\Tamilnadu_EV_Stations.pkl"
 ev_stations = pd.read_pickle(data_file)
 
 # Initialize the geocoder
