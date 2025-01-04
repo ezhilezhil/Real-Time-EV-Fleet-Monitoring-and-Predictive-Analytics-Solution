@@ -13,8 +13,9 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #f1f1f1;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #102A43, #19354A);
+            color: #e5e7eb;
             min-height: 100vh;
         }
 
@@ -34,22 +35,25 @@
             padding: 0.75rem 1rem;
             margin-bottom: 0.5rem;
             border: none;
-            border-radius: 4px;
-            background: #1e293b;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #17B2C8, #107A8B);
             color: white;
+            font-weight: 500;
             text-align: left;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+            transition: all 0.3s ease;
         }
 
         .nav-button:hover {
-            opacity: 0.9;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 194, 255, 0.4);
         }
 
         .nav-button.achievement {
-            background: #0d9488;
+            background: linear-gradient(135deg, #ff512f, #dd2476);
         }
 
         .notification-popup {
@@ -57,11 +61,12 @@
             top: 1rem;
             right: 1rem;
             width: 320px;
-            background: #ffd8a8;
+            background: linear-gradient(135deg, #ff512f, #dd2476);
             padding: 1.5rem;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             z-index: 1000;
+            color: white;
         }
 
         .close-button {
@@ -71,63 +76,16 @@
             background: none;
             border: none;
             cursor: pointer;
-            padding: 4px;
-        }
-
-        .notification-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .icon-container {
-            width: 48px;
-            height: 48px;
-            background: #1e293b;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-        }
-
-        .icon-container i {
             color: white;
-        }
-
-        .notification-title {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 0.5rem;
-        }
-
-        .notification-message {
-            font-size: 0.875rem;
-            color: #4b5563;
-            margin-bottom: 1rem;
-        }
-
-        .inbox-button {
-            background: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .inbox-button:hover {
-            background: #f1f1f1;
         }
 
         .content-area {
             flex: 1;
-            background: white;
+            background: #FFFFFF;
             padding: 2rem;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            min-height: 400px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            color: #1E293B;
         }
 
         .section {
@@ -138,29 +96,35 @@
             display: block;
         }
 
+        .section h2 {
+            color: #152238;
+        }
+
         .form-group {
             margin-bottom: 1rem;
         }
 
         .form-group input {
             width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-top: 0.25rem;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-top: 0.5rem;
+            font-size: 1rem;
         }
 
         .submit-button {
-            background: #1e293b;
+            background: linear-gradient(145deg, #0EA5E9, #0D9488);
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
             border: none;
-            border-radius: 4px;
             cursor: pointer;
         }
 
         .submit-button:hover {
-            opacity: 0.9;
+            background: #0C748B;
         }
 
         .achievement-grid {
@@ -168,41 +132,47 @@
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 1rem;
         }
-
+        
         .achievement-card {
-            background: #f8f8f8;
-            padding: 1rem;
+            background: #F3F4F6;
+            padding: 1.5rem;
             border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
 
-        .achievement-icon {
-            color: #0d9488;
-            margin-bottom: 0.5rem;
+        .achievement-card h3 {
+            color: #0D9488;
+            margin-bottom: 0.25rem;
         }
 
+        .achievement-icon {
+            color: #0EA5E9;
+            margin-bottom: 0.75rem;
+            font-size: 2rem;
+        }
 
-        /* Back Button Styling */
         .back-button-container {
             display: flex;
             justify-content: center;
+            margin-top: 2rem;
             position: absolute;
             bottom: 20px;
             width: 100%;
         }
 
         .back-button {
-            background-color: #2196f3;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
+            background: linear-gradient(145deg, #1D4ED8, #1E40AF);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 500;
             cursor: pointer;
             text-align: center;
         }
 
         .back-button:hover {
-            background-color: #1a2851;
+            background: #1A2851;
         }
 
     </style>
@@ -243,8 +213,8 @@
         <div class="content-area">
             <!-- Default Section -->
             <div class="section active" id="default">
-                <h2>Welcome to Dashboard</h2>
-                <p>Select a menu item to get started.</p>
+                <h2>Welcome!</h2>
+                <p> We’ve gathered all the important notifications and alerts for you. <br> Take a moment to check them out and stay on top of your fleet's performance.</p>
             </div>
 
             <!-- Notification Section -->
@@ -253,7 +223,12 @@
                 <div style="margin-top: 1rem;">
                     <div style="background: #f8f8f8; padding: 1rem; border-radius: 4px; margin-bottom: 0.5rem;">
                         <h3>Important message!</h3>
-                        <p>Do you know that you can assign status and relation to a company right in the visit list?</p>
+                        <p>⚡New features are now available. Head over to  the dashboard to explore real-time insights! Like <br>    
+                            <ul>
+                                <li>Live vehicle tracking. </li>
+                                <li>predictive analytics are now available. </li>
+                            </ul>
+                         </p>
                     </div>
                 </div>
             </div>
@@ -301,18 +276,22 @@
                 <div class="achievement-grid" style="margin-top: 1rem;">
                     <div class="achievement-card">
                         <i data-feather="award" class="achievement-icon"></i>
-                        <h3>First Login</h3>
-                        <p>Welcome aboard!</p>
+                        <h3>Fleet Optimizer</h3>
+                        <p>🏆 Reduced idle time by 20% across the fleet. <br>
+                            <b> "Efficiency at its peak!" </b></p>
                     </div>
                     <div class="achievement-card">
                         <i data-feather="award" class="achievement-icon"></i>
-                        <h3>Profile Complete</h3>
-                        <p>All set up!</p>
+                        <h3>Green Driver</h3>
+                        <p>🌱 80% of trips were completed using eco-friendly routes. <br>
+                            <b> "You're making a difference!" </b></p>
                     </div>
                     <div class="achievement-card">
                         <i data-feather="award" class="achievement-icon"></i>
-                        <h3>First Post</h3>
-                        <p>Getting started!</p>
+                        <h3>Battery Guardian</h3>
+                        <p>🔋 First proactive battery replacement scheduled. <br>
+                            <b> "Prevention is better than breakdowns!" </b>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -340,7 +319,9 @@
                 </div>
                 <h3 class="notification-title">Important message!</h3>
                 <p class="notification-message">
-                    Do you know that you can assign status and relation to a company right in the visit list?
+  
+New features are now available. <br>  
+Head over to the dashboard to explore real-time insights! <br>Read more.... 
                 </p>
                 <button class="inbox-button">Go to Inbox</button>
             </div>

@@ -18,7 +18,7 @@ def update_battery_capacity(registration_number, new_battery_capacity):
     # Update the battery capacity for a specific vehicle
     cursor.execute('''
         UPDATE vehicles
-        SET battery_capacity = ?
+        SET battery_health = ?
         WHERE registration_number = ?
     ''', (new_battery_capacity, registration_number))
 
@@ -26,6 +26,22 @@ def update_battery_capacity(registration_number, new_battery_capacity):
         print("No vehicle found with the given registration number.")
     else:
         print("Battery capacity updated successfully.")
+
+    conn.commit()
+    conn.close()
+
+# Function to delete a vehicle by its ID
+def delete_vehicle_by_id(vehicle_id):
+    conn = sqlite3.connect('vehicle_data.db')
+    cursor = conn.cursor()
+
+    # Delete vehicle by ID
+    cursor.execute('DELETE FROM vehicles WHERE id = ?', (vehicle_id,))
+
+    if cursor.rowcount == 0:
+        print("No vehicle found with given ID.")
+    else:
+        print("Vehicle removed successfully.")
 
     conn.commit()
     conn.close()

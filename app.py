@@ -1,16 +1,19 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 import pickle
 import random
 from datetime import datetime
 import requests
+from users_db import create_user, get_user
 from insert_data import insert_vehicle
-from retrieve_data import fetch_all_vehicles
+from retrieve_data import fetch_all_vehicles, delete_vehicle_by_id
 import numpy as np
 import pandas as pd
+import csv
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 
 app = Flask(__name__)
+app.secret_key = 'supersecretkey' # Needed for flash messages
 
 # Load the trained battery status prediction model
 with open(r"C:\InfosysSpringBoard_Internship\Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution\models\battery_health_model.pkl", "rb") as model_file:
@@ -23,26 +26,44 @@ ev_stations = pd.read_pickle(data_file)
 # Initialize the geocoder
 geolocator = Nominatim(user_agent="ev_station_locator")
 
-# OpenWeather API details
-API_KEY = '269cd9d63b71b57a3134fbe597aceb8b'
-CITY = 'India'
-BASE_URL = f'http://api.openweathermap.org/data/2.5/weather?q={CITY}&appid={API_KEY}&units=metric'
-
 @app.route("/")
 def index():
-    return render_template("index.html")
-
-@app.route("/login.html")
-def login():
     return render_template("login.html")
 
-@app.route("/register.html")
-def register():
-    return render_template("register.html")
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        
+        user = get_user(email, password)  # Pass both email and password
+        
+        if user:
+            return render_template('login.html', message='Login successful', success=True, redirect_url='/histogram.html')
+        else:
+            return render_template('login.html', message='Invalid credentials', success=False)
 
-@app.route("/forgot_password.html")
+    return render_template('login.html')
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    email = request.form['email']
+    password = request.form['password']
+    confirm_password = request.form['confirm_password']
+    
+    if password != confirm_password:
+        return render_template('login.html', message='Passwords do not match', success=False)
+    
+    if create_user(email, password):
+        return render_template('login.html', message='Signup successful', success=True)
+    else:
+        return render_template('login.html', message='Signup failed', success=False)
+    
+    return render_template('login.html')
+
+@app.route('/forgot_password')
 def forgot_password():
-    return render_template("forgot_password.html")
+    return render_template('forgot_password.html')
 
 @app.route("/Battery Health Status Section.html")
 def Battery_Health_Status_Section():
@@ -64,13 +85,14 @@ def Display_Behavior_Analysis_and_Alerts():
 def Driver_Behavior_and_Maintenance_Alerts():
     return render_template("Driver Behavior and Maintenance Alerts.html")
 
-@app.route("/Report Generation.html")
-def Report_Generation():
-    return render_template("Report Generation.html")
 
 @app.route("/vehicle_registration.html")
 def vehicle_registration():
     return render_template("vehicle_registration.html")
+
+@app.route("/Vehicle List.html")
+def vehicle_list():
+    return render_template("Vehicle List.html")
 
 @app.route("/histogram.html")
 def histogram():
@@ -84,7 +106,8 @@ def register_vehicle():
             data['vehicle_name'],
             data['vehicle_model'],
             data['registration_number'],
-            data['battery_capacity']
+            data['battery_health'],
+            data['status_data']
         )
         return jsonify({"message": "Vehicle registered successfully."}), 201
     except Exception as e:
@@ -94,6 +117,15 @@ def register_vehicle():
 def get_vehicles():
     vehicles = fetch_all_vehicles()
     return jsonify(vehicles), 200
+
+@app.route('/remove_vehicle/<int:vehicle_id>', methods=['DELETE'])
+def remove_vehicle(vehicle_id):
+    try:
+        # called the function from retrieve_data.py to delete the vehicle
+        delete_vehicle_by_id(vehicle_id)
+        return jsonify({"message": "Vehicle removed successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 
 @app.route('/battery_health_status', methods=['POST'])
 def battery_health_status():
@@ -164,6 +196,43 @@ def optimize_route1():
     return render_template('optimize_route.html')
 
 
+@app.route("/Report Generation.html")
+def Report_Generation():
+    vehicles = fetch_all_vehicles()
+
+    vehicle_list = []
+    for vehicle in vehicles:
+        vehicle_data = {
+            'id': vehicle[0],  # Vehicle ID
+            'vehicle_name': vehicle[1],  # Vehicle Name
+            'vehicle_model': vehicle[2],  # Vehicle Model
+            'registration_number': vehicle[3],  # Registration Number
+            'battery_health': vehicle[4],  # Battery Health
+            'status': vehicle[5],  # Status
+            'entry_date': vehicle[6],  # Entry Date
+            }
+        
+        vehicle_list.append(vehicle_data)
+
+    # Calculate Insights
+    total_vehicles = len(vehicles)
+    healthy_battery = sum(1 for v in vehicle_list if v['battery_health'] >= 50)
+    degrade_battery = total_vehicles - healthy_battery
+
+    status_counts = {
+        'available': sum(1 for v in vehicle_list if v['status'] == 'available'),
+        'in_service': sum(1 for v in vehicle_list if v['status'] == 'in_service'),
+        'charging': sum(1 for v in vehicle_list if v['status'] == 'charging')
+    }
+    return render_template(
+        "Report Generation.html",
+        vehicles=vehicle_list, 
+        total_vehicles=total_vehicles, 
+        healthy_battery=healthy_battery, 
+        degrade_battery=degrade_battery, 
+        status_counts=status_counts)
+
+    
 if __name__ == "__main__":
     # Run the app with debugging enabled
     app.run(port=5000, debug=True)
